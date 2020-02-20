@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 public class PencilTest {
     private static final String DEFAULT_PAPER = "She sells sea shells";
     private static final String DEFAULT_TEXT = " down by the sea shore";
-    private static final Integer DEFAULT_DURABILITY = 40000;
+    private static final Integer DEFAULT_DURABILITY = 100;
     private Pencil pencil;
 
     @Before
@@ -55,5 +55,11 @@ public class PencilTest {
         String remainingText = DEFAULT_TEXT.substring(10);
         String expectedText = DEFAULT_PAPER + writtenText + remainingText.replaceAll(".", " ");
         assertEquals(expectedText, almostDullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
+    }
+
+    @Test
+    public void whenPencilWritesLowercaseLetterItLosesOnePointDurability() {
+        pencil.write("", "a");
+        assertEquals(pencil.getDurability(), Integer.valueOf(DEFAULT_DURABILITY - 1));
     }
 }
