@@ -8,7 +8,7 @@ public class PencilTest {
 
     @Before
     public void setUp() {
-        this.pencil = new Pencil();
+        this.pencil = new Pencil(40000);
     }
 
     @Test
@@ -26,5 +26,11 @@ public class PencilTest {
     public void whenPencilIsPassedPaperAndTextItWritesTextOnPaper() {
         String expectedText = "She sells sea shells down by the sea shore";
         assertEquals(expectedText, pencil.write("She sells sea shells", " down by the sea shore"));
+    }
+
+    @Test
+    public void whenPencilIsCreatedWithDurabilityThenGetDurabilityReturnsThatNumber() {
+        Pencil freshPencil = new Pencil(100);
+        assertEquals(Integer.valueOf(100), freshPencil.getDurability());
     }
 }
