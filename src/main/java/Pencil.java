@@ -14,9 +14,17 @@ public class Pencil {
         StringBuilder updatedPaper = new StringBuilder();
         updatedPaper.append(paper);
         for (int i = 0; i < text.length(); i++) {
+            //TODO - Refactor logic.
+            char c = text.charAt(i);
+            int degradation = getDurabilityLoss(c);
             if (durability > 0) {
-                updatedPaper.append(text.charAt(i));
-                durability -= getDurabilityLoss(text.charAt(i));
+                if ((durability - degradation) < 0) {
+                    updatedPaper.append(" ");
+                    durability = 0;
+                } else {
+                    updatedPaper.append(c);
+                    durability -= degradation;
+                }
             } else {
                 updatedPaper.append(" ");
             }

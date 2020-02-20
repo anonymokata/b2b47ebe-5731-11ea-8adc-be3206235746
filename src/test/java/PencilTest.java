@@ -68,10 +68,17 @@ public class PencilTest {
         pencil.write(DEFAULT_PAPER, " ");
         assertEquals(pencil.getDurability(), DEFAULT_DURABILITY);
     }
-    
+
     @Test
     public void whenPencilWritesUppercaseLetterItLosesTwoPointsDurability() {
         pencil.write(DEFAULT_PAPER, "A");
         assertEquals(pencil.getDurability(), Integer.valueOf(DEFAULT_DURABILITY - 2));
+    }
+
+    @Test
+    public void whenPencilHasOneDurabilityAndEncountersUppercaseItWritesASpace() {
+        Pencil toBeDullPencil = new Pencil(1);
+        toBeDullPencil.write(DEFAULT_PAPER, "A");
+        assertEquals(toBeDullPencil.getDurability(), Integer.valueOf(0));
     }
 }
