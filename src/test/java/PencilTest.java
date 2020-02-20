@@ -33,4 +33,12 @@ public class PencilTest {
         Pencil freshPencil = new Pencil(100);
         assertEquals(Integer.valueOf(100), freshPencil.getDurability());
     }
+
+    @Test
+    public void whenPencilIsDullOnlySpacesAreWritten() {
+        String paper = "She sells sea shells";
+        String text = " down by the sea shore";
+        Pencil dullPencil = new Pencil(0);
+        assertEquals(paper + text.replaceAll(".", " "), dullPencil.write(paper, text));
+    }
 }

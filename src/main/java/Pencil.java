@@ -6,11 +6,17 @@ public class Pencil {
         this.durability = durability;
     }
 
-    public String write(String paper, String text) {
-        return paper + text;
-    }
-
     public Integer getDurability() {
         return this.durability;
+    }
+
+    public String write(String paper, String text) {
+        String updatedPaper = paper;
+        if (durability > text.length()) {
+            updatedPaper += text;
+        } else {
+            updatedPaper += text.replaceAll(".", " ");
+        }
+        return updatedPaper;
     }
 }
