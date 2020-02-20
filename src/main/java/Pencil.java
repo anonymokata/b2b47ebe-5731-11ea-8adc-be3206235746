@@ -14,6 +14,7 @@ public class Pencil {
         String updatedPaper = paper;
         if (durability > text.length()) {
             updatedPaper += text;
+            durability -= text.length();
         } else {
             updatedPaper += text.replaceAll(".", " ");
         }

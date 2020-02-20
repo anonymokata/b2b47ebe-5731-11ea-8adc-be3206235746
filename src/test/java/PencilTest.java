@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PencilTest {
     private Pencil pencil;
@@ -40,5 +41,13 @@ public class PencilTest {
         String text = " down by the sea shore";
         Pencil dullPencil = new Pencil(0);
         assertEquals(paper + text.replaceAll(".", " "), dullPencil.write(paper, text));
+    }
+
+    @Test
+    public void whenPencilWritesThenitLosesDurability() {
+        String paper = "She sells sea shells";
+        String text = " down by the sea shore";
+        assertEquals(paper + text, pencil.write(paper, text));
+        assertTrue(pencil.getDurability() < 40000);
     }
 }
