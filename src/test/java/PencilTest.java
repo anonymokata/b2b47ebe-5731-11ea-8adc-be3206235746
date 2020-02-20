@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PencilTest {
     private static final String DEFAULT_PAPER = "She sells sea shells";
-    private static final String DEFAULT_TEXT = "down by the sea shore";
+    private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_DURABILITY = 40000;
     private Pencil pencil;
 
