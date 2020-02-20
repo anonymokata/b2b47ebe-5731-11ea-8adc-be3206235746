@@ -4,16 +4,27 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class PencilTest {
+    private Pencil pencil;
+
+    @Before
+    public void setUp() {
+        this.pencil = new Pencil();
+    }
+
     @Test
     public void whenPencilIsPassedAnEmptyPaperAndEmptyTextItReturnsAnEmptyString() {
-        Pencil pencil = new Pencil();
         assertEquals("", pencil.write("", ""));
     }
 
     @Test
     public void whenPencilIsPassedAnEmptyPaperAndTextItReturnsThatText() {
-        Pencil pencil = new Pencil();
         String text = " down by the sea shore";
         assertEquals(text, pencil.write("", text));
+    }
+
+    @Test
+    public void whenPencilIsPassedPaperAndTextItWritesTextOnPaper() {
+        String expectedText = "She sells sea shells down by the sea shore";
+        assertEquals(expectedText, pencil.write("She sells sea shells", " down by the sea shore"));
     }
 }
