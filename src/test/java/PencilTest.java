@@ -5,11 +5,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PencilTest {
+    private static final String DEFAULT_PAPER = "She sells sea shells";
+    private static final String DEFAULT_TEXT = "down by the sea shore";
+    private static final Integer DEFAULT_DURABILITY = 40000;
     private Pencil pencil;
 
     @Before
     public void setUp() {
-        this.pencil = new Pencil(40000);
+        this.pencil = new Pencil(DEFAULT_DURABILITY);
     }
 
     @Test
@@ -19,14 +22,12 @@ public class PencilTest {
 
     @Test
     public void whenPencilIsPassedAnEmptyPaperAndTextItReturnsThatText() {
-        String text = " down by the sea shore";
-        assertEquals(text, pencil.write("", text));
+        assertEquals(DEFAULT_TEXT, pencil.write("", DEFAULT_TEXT));
     }
 
     @Test
     public void whenPencilIsPassedPaperAndTextItWritesTextOnPaper() {
-        String expectedText = "She sells sea shells down by the sea shore";
-        assertEquals(expectedText, pencil.write("She sells sea shells", " down by the sea shore"));
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
     @Test
@@ -37,17 +38,13 @@ public class PencilTest {
 
     @Test
     public void whenPencilIsDullOnlySpacesAreWritten() {
-        String paper = "She sells sea shells";
-        String text = " down by the sea shore";
         Pencil dullPencil = new Pencil(0);
-        assertEquals(paper + text.replaceAll(".", " "), dullPencil.write(paper, text));
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT.replaceAll(".", " "), dullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
     @Test
     public void whenPencilWritesThenitLosesDurability() {
-        String paper = "She sells sea shells";
-        String text = " down by the sea shore";
-        assertEquals(paper + text, pencil.write(paper, text));
-        assertTrue(pencil.getDurability() < 40000);
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
+        assertTrue(pencil.getDurability() < DEFAULT_DURABILITY);
     }
 }
