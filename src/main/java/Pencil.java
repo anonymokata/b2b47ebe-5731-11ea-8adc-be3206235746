@@ -11,13 +11,16 @@ public class Pencil {
     }
 
     public String write(String paper, String text) {
-        String updatedPaper = paper;
-        if (durability > text.length()) {
-            updatedPaper += text;
-            durability -= text.length();
-        } else {
-            updatedPaper += text.replaceAll(".", " ");
+        StringBuilder updatedPaper = new StringBuilder();
+        updatedPaper.append(paper);
+        for (int i = 0; i < text.length(); i++) {
+            if (durability > 0) {
+                updatedPaper.append(text.charAt(i));
+                durability -= 1;
+            } else {
+                updatedPaper.append(" ");
+            }
         }
-        return updatedPaper;
+        return updatedPaper.toString();
     }
 }
