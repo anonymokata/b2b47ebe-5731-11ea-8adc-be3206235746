@@ -25,6 +25,14 @@ public class Pencil {
     }
 
     private int getDurabilityLoss(Character c) {
-        return (c == ' ' || c == '\n') ? 0 : 1;
+        int durabilityLoss;
+        if (c == ' ' || c == '\n') {
+            durabilityLoss = 0;
+        } else if (Character.isUpperCase(c)) {
+            durabilityLoss = 2;
+        } else {
+            durabilityLoss = 1;
+        }
+        return durabilityLoss;
     }
 }
