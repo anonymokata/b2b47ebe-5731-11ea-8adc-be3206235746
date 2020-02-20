@@ -51,8 +51,8 @@ public class PencilTest {
     @Test
     public void whenPencilGoesDullRemainingTextIsSpaces() {
         Pencil almostDullPencil = new Pencil(10);
-        String writtenText = DEFAULT_TEXT.substring(0, 10);
-        String remainingText = DEFAULT_TEXT.substring(10);
+        String writtenText = DEFAULT_TEXT.substring(0, 14);
+        String remainingText = DEFAULT_TEXT.substring(14);
         String expectedText = DEFAULT_PAPER + writtenText + remainingText.replaceAll(".", " ");
         assertEquals(expectedText, almostDullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
@@ -61,5 +61,11 @@ public class PencilTest {
     public void whenPencilWritesLowercaseLetterItLosesOnePointDurability() {
         pencil.write("", "a");
         assertEquals(pencil.getDurability(), Integer.valueOf(DEFAULT_DURABILITY - 1));
+    }
+
+    @Test
+    public void whenPencilWritesNewLineOrSpaceItDoesNotLoseDurability() {
+        pencil.write(DEFAULT_PAPER, " ");
+        assertEquals(pencil.getDurability(), DEFAULT_DURABILITY);
     }
 }

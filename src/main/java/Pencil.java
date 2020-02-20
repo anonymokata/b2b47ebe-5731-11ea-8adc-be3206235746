@@ -16,11 +16,15 @@ public class Pencil {
         for (int i = 0; i < text.length(); i++) {
             if (durability > 0) {
                 updatedPaper.append(text.charAt(i));
-                durability -= 1;
+                durability -= getDurabilityLoss(text.charAt(i));
             } else {
                 updatedPaper.append(" ");
             }
         }
         return updatedPaper.toString();
+    }
+
+    private int getDurabilityLoss(Character c) {
+        return (c == ' ' || c == '\n') ? 0 : 1;
     }
 }
