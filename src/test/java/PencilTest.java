@@ -96,7 +96,7 @@ public class PencilTest {
         pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
         assertTrue(pencil.getCurrentDurability() < DEFAULT_DURABILITY);
         pencil.sharpen();
-        assertTrue(pencil.getCurrentDurability() == DEFAULT_DURABILITY);
+        assertEquals(pencil.getCurrentDurability(), DEFAULT_DURABILITY);
     }
 
     @Test
