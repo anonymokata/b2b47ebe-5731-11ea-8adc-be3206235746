@@ -1,12 +1,14 @@
 public class Pencil {
     private Integer maxDurability;
     private Integer currentDurability;
+    private Integer eraserDurability;
     private Integer length;
 
-    public Pencil(Integer currentDurability, Integer length) {
+    public Pencil(Integer currentDurability, Integer length, Integer eraserDurability) {
         this.currentDurability = currentDurability;
         this.maxDurability = currentDurability;
         this.length = length;
+        this.eraserDurability = eraserDurability;
     }
 
     public Integer getCurrentDurability() {
@@ -15,6 +17,10 @@ public class Pencil {
 
     public Integer getLength() {
         return length;
+    }
+
+    public Integer getEraserDurability() {
+        return eraserDurability;
     }
 
     public String write(String paper, String text) {
