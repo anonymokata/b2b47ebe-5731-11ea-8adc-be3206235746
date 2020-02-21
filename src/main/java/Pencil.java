@@ -33,6 +33,7 @@ public class Pencil {
 
     public void sharpen() {
         this.currentDurability = this.maxDurability;
+        length -= 1;
     }
 
     private int getDegradation(Character c) {

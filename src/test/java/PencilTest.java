@@ -103,4 +103,11 @@ public class PencilTest {
     public void whenPencilIsCreatedWithLengthThenGetLengthReturnsThatLength() {
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
     }
+
+    @Test
+    public void whenPencilIsSharpenedThenItsLengthIsReducedByOne() {
+        assertEquals(DEFAULT_LENGTH, pencil.getLength());
+        pencil.sharpen();
+        assertTrue(pencil.getLength() < DEFAULT_LENGTH);
+    }
 }
