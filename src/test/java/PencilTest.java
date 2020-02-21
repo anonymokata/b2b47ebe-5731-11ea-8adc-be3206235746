@@ -31,9 +31,9 @@ public class PencilTest {
     }
 
     @Test
-    public void whenPencilIsCreatedWithDurabilityThenGetDurabilityReturnsThatNumber() {
+    public void whenPencilIsCreatedWithDurabilityThenGetCurrentDurabilityReturnsThatNumber() {
         Pencil freshPencil = new Pencil(100);
-        assertEquals(Integer.valueOf(100), freshPencil.getDurability());
+        assertEquals(Integer.valueOf(100), freshPencil.getCurrentDurability());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class PencilTest {
     @Test
     public void whenPencilWritesItLosesDurability() {
         assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
-        assertTrue(pencil.getDurability() < DEFAULT_DURABILITY);
+        assertTrue(pencil.getCurrentDurability() < DEFAULT_DURABILITY);
     }
 
     @Test
@@ -60,41 +60,41 @@ public class PencilTest {
     @Test
     public void whenPencilWritesLowercaseLetterItLosesOnePointDurability() {
         pencil.write("", "a");
-        assertEquals(pencil.getDurability(), Integer.valueOf(DEFAULT_DURABILITY - 1));
+        assertEquals(pencil.getCurrentDurability(), Integer.valueOf(DEFAULT_DURABILITY - 1));
     }
 
     @Test
     public void whenPencilWritesNewLineOrSpaceItDoesNotLoseDurability() {
         pencil.write(DEFAULT_PAPER, " ");
-        assertEquals(pencil.getDurability(), DEFAULT_DURABILITY);
+        assertEquals(pencil.getCurrentDurability(), DEFAULT_DURABILITY);
     }
 
     @Test
     public void whenPencilWritesUppercaseLetterItLosesTwoPointsDurability() {
         pencil.write(DEFAULT_PAPER, "A");
-        assertEquals(pencil.getDurability(), Integer.valueOf(DEFAULT_DURABILITY - 2));
+        assertEquals(pencil.getCurrentDurability(), Integer.valueOf(DEFAULT_DURABILITY - 2));
     }
 
     @Test
     public void whenPencilHasOneDurabilityAndEncountersUppercaseItWritesASpace() {
         Pencil toBeDullPencil = new Pencil(1);
         toBeDullPencil.write(DEFAULT_PAPER, "A");
-        assertEquals(toBeDullPencil.getDurability(), Integer.valueOf(0));
+        assertEquals(toBeDullPencil.getCurrentDurability(), Integer.valueOf(0));
     }
 
     @Test
     public void whenPencilIsDullAndTextIsSpaceThenItWritesSpace() {
         Pencil dullPencil = new Pencil(0);
         String outcome = dullPencil.write("", " ");
-        assertEquals(dullPencil.getDurability(), Integer.valueOf(0));
+        assertEquals(dullPencil.getCurrentDurability(), Integer.valueOf(0));
         assertEquals(outcome, " ");
     }
 
     @Test
     public void whenPencilIsSharpenedItsDurabilityResetsToInitialValue() {
         pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
-        assertTrue(pencil.getDurability() < DEFAULT_DURABILITY);
+        assertTrue(pencil.getCurrentDurability() < DEFAULT_DURABILITY);
         pencil.sharpen();
-        assertTrue(pencil.getDurability() == DEFAULT_DURABILITY);
+        assertTrue(pencil.getCurrentDurability() == DEFAULT_DURABILITY);
     }
 }

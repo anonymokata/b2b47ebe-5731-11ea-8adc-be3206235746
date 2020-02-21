@@ -1,15 +1,15 @@
 public class Pencil {
 
     private Integer maxDurability;
-    private Integer durability;
+    private Integer currentDurability;
 
-    public Pencil(Integer durability) {
-        this.durability = durability;
-        this.maxDurability = durability;
+    public Pencil(Integer currentDurability) {
+        this.currentDurability = currentDurability;
+        this.maxDurability = currentDurability;
     }
 
-    public Integer getDurability() {
-        return this.durability;
+    public Integer getCurrentDurability() {
+        return this.currentDurability;
     }
 
     public String write(String paper, String text) {
@@ -18,15 +18,15 @@ public class Pencil {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
-            char charToWrite = ((degradation > durability) || degradation == 0) ? ' ' : c;
+            char charToWrite = ((degradation > currentDurability) || degradation == 0) ? ' ' : c;
             updatedPaper.append(charToWrite);
-            durability = Math.max(durability - degradation, 0);
+            currentDurability = Math.max(currentDurability - degradation, 0);
         }
         return updatedPaper.toString();
     }
 
     public void sharpen() {
-        this.durability = this.maxDurability;
+        this.currentDurability = this.maxDurability;
     }
 
     private int getDegradation(Character c) {
