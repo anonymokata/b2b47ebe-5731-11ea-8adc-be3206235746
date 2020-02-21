@@ -1,5 +1,4 @@
 public class Pencil {
-
     private Integer maxDurability;
     private Integer currentDurability;
     private Integer length;
@@ -11,11 +10,11 @@ public class Pencil {
     }
 
     public Integer getCurrentDurability() {
-        return this.currentDurability;
+        return currentDurability;
     }
 
     public Integer getLength() {
-        return this.length;
+        return length;
     }
 
     public String write(String paper, String text) {
@@ -32,7 +31,7 @@ public class Pencil {
     }
 
     public void sharpen() {
-        this.currentDurability = this.maxDurability;
+        currentDurability = maxDurability;
         length -= 1;
     }
 
