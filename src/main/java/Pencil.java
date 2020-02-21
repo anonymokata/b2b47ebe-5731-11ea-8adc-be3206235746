@@ -37,6 +37,10 @@ public class Pencil {
         }
     }
 
+    public String erase(String paper, String targetText) {
+        return "";
+    }
+
     private int getDegradation(Character c) {
         int degradation;
         if (c == ' ' || c == '\n') {

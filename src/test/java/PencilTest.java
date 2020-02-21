@@ -127,4 +127,10 @@ public class PencilTest {
         pencil.sharpen();
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
     }
+
+    @Test
+    public void whenPencilErasesOnEmptyPaperThenEmptyPaperIsReturned() {
+        String outcome = pencil.erase("", "");
+        assertEquals("", outcome);
+    }
 }
