@@ -31,7 +31,7 @@ public class Pencil {
     }
 
     public void sharpen() {
-        if (length > 0) {
+        if (length > 0 && (!maxDurability.equals(currentDurability))) {
             currentDurability = maxDurability;
             length -= 1;
         }

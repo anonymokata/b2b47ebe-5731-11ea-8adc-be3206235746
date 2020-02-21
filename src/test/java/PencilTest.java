@@ -107,6 +107,7 @@ public class PencilTest {
     @Test
     public void whenPencilIsSharpenedThenItsLengthIsReducedByOne() {
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
+        pencil.write("", "abc");
         pencil.sharpen();
         assertTrue(pencil.getLength() < DEFAULT_LENGTH);
     }
@@ -117,5 +118,13 @@ public class PencilTest {
         assertEquals(Integer.valueOf(0), almostDullPencil.getCurrentDurability());
         almostDullPencil.sharpen();
         assertEquals(Integer.valueOf(0), almostDullPencil.getCurrentDurability());
+    }
+
+    @Test
+    public void whenPencilIsAtMaximumDurabilityThenSharpeningDoesNotCausePencilToLoseLength() {
+        assertEquals(DEFAULT_DURABILITY, pencil.getCurrentDurability());
+        assertEquals(DEFAULT_LENGTH, pencil.getLength());
+        pencil.sharpen();
+        assertEquals(DEFAULT_LENGTH, pencil.getLength());
     }
 }
