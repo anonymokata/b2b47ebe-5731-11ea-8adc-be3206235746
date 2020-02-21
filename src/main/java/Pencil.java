@@ -38,11 +38,16 @@ public class Pencil {
     }
 
     public String erase(String paper, String targetText) {
+        String modifiedPaper;
         if (paper.contains(targetText)) {
-            return paper.replace(targetText, replaceTextWithSpaces(targetText));
+            int indexOfTargetText = paper.lastIndexOf(targetText);
+            String remainingPaper = paper.substring(indexOfTargetText);
+            remainingPaper = remainingPaper.replace(targetText, replaceTextWithSpaces(targetText));
+            modifiedPaper = paper.substring(0, indexOfTargetText) + remainingPaper;
         } else {
-            return paper;
+            modifiedPaper = paper;
         }
+        return modifiedPaper;
     }
 
     private int getDegradation(Character c) {

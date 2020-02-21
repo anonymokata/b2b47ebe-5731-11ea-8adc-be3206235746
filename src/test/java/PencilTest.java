@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PencilTest {
     private static final String DEFAULT_PAPER = "She sells sea shells";
+    private static final String WOOD_CHUCK_PAPER = "How much chuck could a woodchuck chuck if a woodchuck could chuck wood?";
     private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_DURABILITY = 100;
     private static final Integer DEFAULT_LENGTH = 10;
@@ -144,5 +145,11 @@ public class PencilTest {
     public void whenPencilFindsTargetToEraseInPaperItThenReplacesTargetWithSpaces() {
         String modifiedPaper = pencil.erase(DEFAULT_PAPER, "sea");
         assertEquals("She sells     shells", modifiedPaper);
+    }
+
+    @Test
+    public void whenPencilFindsMultipleInstancesOfTargetTextItErasesLastInstanceOfTargetText() {
+        String modifiedPaper = pencil.erase(WOOD_CHUCK_PAPER, "chuck");
+        assertEquals(WOOD_CHUCK_PAPER.substring(0, 60) + "     " + WOOD_CHUCK_PAPER.substring(65), modifiedPaper);
     }
 }
