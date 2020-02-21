@@ -31,8 +31,10 @@ public class Pencil {
     }
 
     public void sharpen() {
-        currentDurability = maxDurability;
-        length -= 1;
+        if (length > 0) {
+            currentDurability = maxDurability;
+            length -= 1;
+        }
     }
 
     private int getDegradation(Character c) {

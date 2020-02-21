@@ -110,4 +110,12 @@ public class PencilTest {
         pencil.sharpen();
         assertTrue(pencil.getLength() < DEFAULT_LENGTH);
     }
+
+    @Test
+    public void whenPencilLengthIsZeroThenSharpeningPencilDoesNotRestoreDurability() {
+        Pencil almostDullPencil = new Pencil(0, 0);
+        assertEquals(Integer.valueOf(0), almostDullPencil.getCurrentDurability());
+        almostDullPencil.sharpen();
+        assertEquals(Integer.valueOf(0), almostDullPencil.getCurrentDurability());
+    }
 }
