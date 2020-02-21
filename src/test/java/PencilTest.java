@@ -164,4 +164,11 @@ public class PencilTest {
         Pencil pencilDullEraser = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, 0);
         assertEquals(DEFAULT_PAPER, pencilDullEraser.erase(DEFAULT_PAPER, "sea"));
     }
+
+    @Test
+    public void whenEraserErasesThenItLosesDurability() {
+        assertEquals(DEFAULT_ERASER_DURABILITY, pencil.getEraserDurability());
+        pencil.erase(DEFAULT_PAPER, "sea");
+        assertTrue(pencil.getEraserDurability() < DEFAULT_ERASER_DURABILITY);
+    }
 }

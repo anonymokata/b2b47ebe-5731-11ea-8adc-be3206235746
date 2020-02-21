@@ -51,6 +51,7 @@ public class Pencil {
                 String remainingPaper = paper.substring(indexOfTargetText);
                 remainingPaper = remainingPaper.replace(targetText, replaceTextWithSpaces(targetText));
                 modifiedPaper = paper.substring(0, indexOfTargetText) + remainingPaper;
+                eraserDurability -= targetText.length();
             } else {
                 modifiedPaper = paper;
             }
