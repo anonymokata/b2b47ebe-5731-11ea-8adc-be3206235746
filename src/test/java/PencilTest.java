@@ -8,11 +8,12 @@ public class PencilTest {
     private static final String DEFAULT_PAPER = "She sells sea shells";
     private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_DURABILITY = 100;
+    private static final Integer DEFAULT_LENGTH = 10;
     private Pencil pencil;
 
     @Before
     public void setUp() {
-        this.pencil = new Pencil(DEFAULT_DURABILITY);
+        this.pencil = new Pencil(DEFAULT_DURABILITY, DEFAULT_LENGTH);
     }
 
     @Test
@@ -32,13 +33,13 @@ public class PencilTest {
 
     @Test
     public void whenPencilIsCreatedWithDurabilityThenGetCurrentDurabilityReturnsThatNumber() {
-        Pencil freshPencil = new Pencil(100);
+        Pencil freshPencil = new Pencil(100, DEFAULT_LENGTH);
         assertEquals(Integer.valueOf(100), freshPencil.getCurrentDurability());
     }
 
     @Test
     public void whenPencilIsDullOnlySpacesAreWritten() {
-        Pencil dullPencil = new Pencil(0);
+        Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH);
         assertEquals(DEFAULT_PAPER + DEFAULT_TEXT.replaceAll(".", " "), dullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
@@ -50,7 +51,7 @@ public class PencilTest {
 
     @Test
     public void whenPencilGoesDullRemainingTextIsSpaces() {
-        Pencil almostDullPencil = new Pencil(10);
+        Pencil almostDullPencil = new Pencil(10, DEFAULT_LENGTH);
         String writtenText = DEFAULT_TEXT.substring(0, 14);
         String remainingText = DEFAULT_TEXT.substring(14);
         String expectedText = DEFAULT_PAPER + writtenText + remainingText.replaceAll(".", " ");
@@ -77,14 +78,14 @@ public class PencilTest {
 
     @Test
     public void whenPencilHasOneDurabilityAndEncountersUppercaseItWritesASpace() {
-        Pencil toBeDullPencil = new Pencil(1);
+        Pencil toBeDullPencil = new Pencil(1, DEFAULT_LENGTH);
         toBeDullPencil.write(DEFAULT_PAPER, "A");
         assertEquals(toBeDullPencil.getCurrentDurability(), Integer.valueOf(0));
     }
 
     @Test
     public void whenPencilIsDullAndTextIsSpaceThenItWritesSpace() {
-        Pencil dullPencil = new Pencil(0);
+        Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH);
         String outcome = dullPencil.write("", " ");
         assertEquals(dullPencil.getCurrentDurability(), Integer.valueOf(0));
         assertEquals(outcome, " ");
@@ -96,5 +97,10 @@ public class PencilTest {
         assertTrue(pencil.getCurrentDurability() < DEFAULT_DURABILITY);
         pencil.sharpen();
         assertTrue(pencil.getCurrentDurability() == DEFAULT_DURABILITY);
+    }
+
+    @Test
+    public void whenPencilIsCreatedWithLengthThenGetLengthReturnsThatLength() {
+        assertEquals(DEFAULT_LENGTH, pencil.getLength());
     }
 }

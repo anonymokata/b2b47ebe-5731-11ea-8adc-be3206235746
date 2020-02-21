@@ -2,14 +2,20 @@ public class Pencil {
 
     private Integer maxDurability;
     private Integer currentDurability;
+    private Integer length;
 
-    public Pencil(Integer currentDurability) {
+    public Pencil(Integer currentDurability, Integer length) {
         this.currentDurability = currentDurability;
         this.maxDurability = currentDurability;
+        this.length = length;
     }
 
     public Integer getCurrentDurability() {
         return this.currentDurability;
+    }
+
+    public Integer getLength() {
+        return this.length;
     }
 
     public String write(String paper, String text) {
