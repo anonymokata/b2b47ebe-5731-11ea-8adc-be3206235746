@@ -1,18 +1,18 @@
 public class Pencil {
-    private Integer maxDurability;
-    private Integer currentDurability;
+    private Integer maxPointDurability;
+    private Integer currentPointDurability;
     private Integer eraserDurability;
     private Integer length;
 
-    public Pencil(Integer currentDurability, Integer length, Integer eraserDurability) {
-        this.currentDurability = currentDurability;
-        this.maxDurability = currentDurability;
+    public Pencil(Integer currentPointDurability, Integer length, Integer eraserDurability) {
+        this.currentPointDurability = currentPointDurability;
+        this.maxPointDurability = currentPointDurability;
         this.length = length;
         this.eraserDurability = eraserDurability;
     }
 
-    public Integer getCurrentDurability() {
-        return currentDurability;
+    public Integer getPointDurability() {
+        return currentPointDurability;
     }
 
     public Integer getLength() {
@@ -29,16 +29,16 @@ public class Pencil {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
-            char charToWrite = ((degradation > currentDurability) || degradation == 0) ? ' ' : c;
+            char charToWrite = ((degradation > currentPointDurability) || degradation == 0) ? ' ' : c;
             updatedPaper.append(charToWrite);
-            currentDurability = Math.max(currentDurability - degradation, 0);
+            currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
         return updatedPaper.toString();
     }
 
     public void sharpen() {
-        if (length > 0 && (!maxDurability.equals(currentDurability))) {
-            currentDurability = maxDurability;
+        if (length > 0 && (!maxPointDurability.equals(currentPointDurability))) {
+            currentPointDurability = maxPointDurability;
             length -= 1;
         }
     }

@@ -9,13 +9,13 @@ public class PencilTest {
     private static final String WOOD_CHUCK_PAPER = "How much chuck could a woodchuck chuck if a woodchuck could chuck wood?";
     private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_ERASER_DURABILITY = 150;
-    private static final Integer DEFAULT_DURABILITY = 100;
+    private static final Integer DEFAULT_POINT_DURABILITY = 100;
     private static final Integer DEFAULT_LENGTH = 10;
     private Pencil pencil;
 
     @Before
     public void setUp() {
-        this.pencil = new Pencil(DEFAULT_DURABILITY, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
+        this.pencil = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class PencilTest {
     @Test
     public void whenPencilIsCreatedWithDurabilityThenGetCurrentDurabilityReturnsThatNumber() {
         Pencil freshPencil = new Pencil(100, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        assertEquals(Integer.valueOf(100), freshPencil.getCurrentDurability());
+        assertEquals(Integer.valueOf(100), freshPencil.getPointDurability());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class PencilTest {
     @Test
     public void whenPencilWritesItLosesDurability() {
         assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
-        assertTrue(pencil.getCurrentDurability() < DEFAULT_DURABILITY);
+        assertTrue(pencil.getPointDurability() < DEFAULT_POINT_DURABILITY);
     }
 
     @Test
@@ -63,42 +63,42 @@ public class PencilTest {
     @Test
     public void whenPencilWritesLowercaseLetterItLosesOnePointDurability() {
         pencil.write("", "a");
-        assertEquals(pencil.getCurrentDurability(), Integer.valueOf(DEFAULT_DURABILITY - 1));
+        assertEquals(pencil.getPointDurability(), Integer.valueOf(DEFAULT_POINT_DURABILITY - 1));
     }
 
     @Test
     public void whenPencilWritesNewLineOrSpaceItDoesNotLoseDurability() {
         pencil.write(DEFAULT_PAPER, " ");
-        assertEquals(pencil.getCurrentDurability(), DEFAULT_DURABILITY);
+        assertEquals(pencil.getPointDurability(), DEFAULT_POINT_DURABILITY);
     }
 
     @Test
     public void whenPencilWritesUppercaseLetterItLosesTwoPointsDurability() {
         pencil.write(DEFAULT_PAPER, "A");
-        assertEquals(pencil.getCurrentDurability(), Integer.valueOf(DEFAULT_DURABILITY - 2));
+        assertEquals(pencil.getPointDurability(), Integer.valueOf(DEFAULT_POINT_DURABILITY - 2));
     }
 
     @Test
     public void whenPencilHasOneDurabilityAndEncountersUppercaseItWritesASpace() {
         Pencil toBeDullPencil = new Pencil(1, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
         toBeDullPencil.write(DEFAULT_PAPER, "A");
-        assertEquals(toBeDullPencil.getCurrentDurability(), Integer.valueOf(0));
+        assertEquals(toBeDullPencil.getPointDurability(), Integer.valueOf(0));
     }
 
     @Test
     public void whenPencilIsDullAndTextIsSpaceThenItWritesSpace() {
         Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
         String outcome = dullPencil.write("", " ");
-        assertEquals(dullPencil.getCurrentDurability(), Integer.valueOf(0));
+        assertEquals(dullPencil.getPointDurability(), Integer.valueOf(0));
         assertEquals(outcome, " ");
     }
 
     @Test
     public void whenPencilIsSharpenedItsDurabilityResetsToInitialValue() {
         pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
-        assertTrue(pencil.getCurrentDurability() < DEFAULT_DURABILITY);
+        assertTrue(pencil.getPointDurability() < DEFAULT_POINT_DURABILITY);
         pencil.sharpen();
-        assertEquals(pencil.getCurrentDurability(), DEFAULT_DURABILITY);
+        assertEquals(pencil.getPointDurability(), DEFAULT_POINT_DURABILITY);
     }
 
     @Test
@@ -117,14 +117,14 @@ public class PencilTest {
     @Test
     public void whenPencilLengthIsZeroThenSharpeningPencilDoesNotRestoreDurability() {
         Pencil almostDullPencil = new Pencil(0, 0, 0);
-        assertEquals(Integer.valueOf(0), almostDullPencil.getCurrentDurability());
+        assertEquals(Integer.valueOf(0), almostDullPencil.getPointDurability());
         almostDullPencil.sharpen();
-        assertEquals(Integer.valueOf(0), almostDullPencil.getCurrentDurability());
+        assertEquals(Integer.valueOf(0), almostDullPencil.getPointDurability());
     }
 
     @Test
     public void whenPencilIsAtMaximumDurabilityThenSharpeningDoesNotCausePencilToLoseLength() {
-        assertEquals(DEFAULT_DURABILITY, pencil.getCurrentDurability());
+        assertEquals(DEFAULT_POINT_DURABILITY, pencil.getPointDurability());
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
         pencil.sharpen();
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
