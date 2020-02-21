@@ -158,4 +158,10 @@ public class PencilTest {
     public void whenPencilIsCreatedThenGetEraserDurabilityReturnsThatEraserDurability() {
         assertEquals(Integer.valueOf(150), pencil.getEraserDurability());
     }
+
+    @Test
+    public void whenEraserIsDullThenTargetTextIsNotErased() {
+        Pencil pencilDullEraser = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, 0);
+        assertEquals(DEFAULT_PAPER, pencilDullEraser.erase(DEFAULT_PAPER, "sea"));
+    }
 }

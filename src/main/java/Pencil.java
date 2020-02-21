@@ -46,10 +46,14 @@ public class Pencil {
     public String erase(String paper, String targetText) {
         String modifiedPaper;
         if (paper.contains(targetText)) {
-            int indexOfTargetText = paper.lastIndexOf(targetText);
-            String remainingPaper = paper.substring(indexOfTargetText);
-            remainingPaper = remainingPaper.replace(targetText, replaceTextWithSpaces(targetText));
-            modifiedPaper = paper.substring(0, indexOfTargetText) + remainingPaper;
+            if (eraserDurability > 0) {
+                int indexOfTargetText = paper.lastIndexOf(targetText);
+                String remainingPaper = paper.substring(indexOfTargetText);
+                remainingPaper = remainingPaper.replace(targetText, replaceTextWithSpaces(targetText));
+                modifiedPaper = paper.substring(0, indexOfTargetText) + remainingPaper;
+            } else {
+                modifiedPaper = paper;
+            }
         } else {
             modifiedPaper = paper;
         }
