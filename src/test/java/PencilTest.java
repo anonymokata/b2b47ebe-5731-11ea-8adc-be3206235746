@@ -133,4 +133,10 @@ public class PencilTest {
         String outcome = pencil.erase("", "");
         assertEquals("", outcome);
     }
+
+    @Test
+    public void whenPencilDoesNotFindTargetToEraseThenPaperRemainsUnmodified() {
+        String modifiedPaper = pencil.erase(DEFAULT_PAPER, "Test");
+        assertEquals(modifiedPaper, DEFAULT_PAPER);
+    }
 }

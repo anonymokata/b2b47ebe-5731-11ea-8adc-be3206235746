@@ -38,7 +38,11 @@ public class Pencil {
     }
 
     public String erase(String paper, String targetText) {
-        return "";
+        if (paper.contains(targetText)) {
+            return "";
+        } else {
+            return paper;
+        }
     }
 
     private int getDegradation(Character c) {
