@@ -1,9 +1,11 @@
 public class Pencil {
 
+    private Integer maxDurability;
     private Integer durability;
 
     public Pencil(Integer durability) {
         this.durability = durability;
+        this.maxDurability = durability;
     }
 
     public Integer getDurability() {
@@ -21,6 +23,10 @@ public class Pencil {
             durability = Math.max(durability - degradation, 0);
         }
         return updatedPaper.toString();
+    }
+
+    public void sharpen() {
+        this.durability = this.maxDurability;
     }
 
     private int getDegradation(Character c) {

@@ -89,4 +89,12 @@ public class PencilTest {
         assertEquals(dullPencil.getDurability(), Integer.valueOf(0));
         assertEquals(outcome, " ");
     }
+
+    @Test
+    public void whenPencilIsSharpenedItsDurabilityResetsToInitialValue() {
+        pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
+        assertTrue(pencil.getDurability() < DEFAULT_DURABILITY);
+        pencil.sharpen();
+        assertTrue(pencil.getDurability() == DEFAULT_DURABILITY);
+    }
 }
