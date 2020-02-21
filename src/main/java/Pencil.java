@@ -14,33 +14,24 @@ public class Pencil {
         StringBuilder updatedPaper = new StringBuilder();
         updatedPaper.append(paper);
         for (int i = 0; i < text.length(); i++) {
-            //TODO - Refactor logic.
             char c = text.charAt(i);
-            int degradation = getDurabilityLoss(c);
-            if (durability > 0) {
-                if ((durability - degradation) < 0) {
-                    updatedPaper.append(" ");
-                    durability = 0;
-                } else {
-                    updatedPaper.append(c);
-                    durability -= degradation;
-                }
-            } else {
-                updatedPaper.append(" ");
-            }
+            int degradation = getDegradation(c);
+            char charToWrite = ((degradation > durability) || degradation == 0) ? ' ' : c;
+            updatedPaper.append(charToWrite);
+            durability = Math.max(durability - degradation, 0);
         }
         return updatedPaper.toString();
     }
 
-    private int getDurabilityLoss(Character c) {
-        int durabilityLoss;
+    private int getDegradation(Character c) {
+        int degradation;
         if (c == ' ' || c == '\n') {
-            durabilityLoss = 0;
+            degradation = 0;
         } else if (Character.isUpperCase(c)) {
-            durabilityLoss = 2;
+            degradation = 2;
         } else {
-            durabilityLoss = 1;
+            degradation = 1;
         }
-        return durabilityLoss;
+        return degradation;
     }
 }

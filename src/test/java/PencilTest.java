@@ -81,4 +81,12 @@ public class PencilTest {
         toBeDullPencil.write(DEFAULT_PAPER, "A");
         assertEquals(toBeDullPencil.getDurability(), Integer.valueOf(0));
     }
+
+    @Test
+    public void whenPencilIsDullAndTextIsSpaceThenItWritesSpace() {
+        Pencil dullPencil = new Pencil(0);
+        String outcome = dullPencil.write("", " ");
+        assertEquals(dullPencil.getDurability(), Integer.valueOf(0));
+        assertEquals(outcome, " ");
+    }
 }
