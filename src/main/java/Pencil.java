@@ -39,7 +39,7 @@ public class Pencil {
 
     public String erase(String paper, String targetText) {
         if (paper.contains(targetText)) {
-            return "";
+            return paper.replace(targetText, replaceTextWithSpaces(targetText));
         } else {
             return paper;
         }
@@ -55,5 +55,13 @@ public class Pencil {
             degradation = 1;
         }
         return degradation;
+    }
+
+    private String replaceTextWithSpaces(String text) {
+        StringBuilder spaces = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            spaces.append(" ");
+        }
+        return spaces.toString();
     }
 }

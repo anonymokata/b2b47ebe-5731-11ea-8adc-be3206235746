@@ -139,4 +139,10 @@ public class PencilTest {
         String modifiedPaper = pencil.erase(DEFAULT_PAPER, "Test");
         assertEquals(modifiedPaper, DEFAULT_PAPER);
     }
+
+    @Test
+    public void whenPencilFindsTargetToEraseInPaperItThenReplacesTargetWithSpaces() {
+        String modifiedPaper = pencil.erase(DEFAULT_PAPER, "sea");
+        assertEquals("She sells     shells", modifiedPaper);
+    }
 }
