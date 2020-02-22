@@ -6,16 +6,19 @@ import static org.junit.Assert.assertTrue;
 
 public class PencilTest {
     private static final String DEFAULT_PAPER = "She sells sea shells";
+    private static final String DEFAULT_PAPER_MISSING_SEA = "She sells     shells";
     private static final String WOOD_CHUCK_PAPER = "How much chuck could a woodchuck chuck if a woodchuck could chuck wood?";
     private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_ERASER_DURABILITY = 150;
     private static final Integer DEFAULT_POINT_DURABILITY = 100;
     private static final Integer DEFAULT_LENGTH = 10;
     private Pencil pencil;
+    private Pencil dullPencil;
 
     @Before
     public void setUp() {
         this.pencil = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
+        this.dullPencil = new Pencil(0, 0, 0);
     }
 
     @Test
@@ -35,13 +38,11 @@ public class PencilTest {
 
     @Test
     public void whenPencilIsCreatedWithDurabilityThenGetCurrentDurabilityReturnsThatNumber() {
-        Pencil freshPencil = new Pencil(100, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        assertEquals(Integer.valueOf(100), freshPencil.getPointDurability());
+        assertEquals(Integer.valueOf(DEFAULT_POINT_DURABILITY), pencil.getPointDurability());
     }
 
     @Test
     public void whenPencilIsDullOnlySpacesAreWritten() {
-        Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
         assertEquals(DEFAULT_PAPER + DEFAULT_TEXT.replaceAll(".", " "), dullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
@@ -54,9 +55,7 @@ public class PencilTest {
     @Test
     public void whenPencilGoesDullRemainingTextIsSpaces() {
         Pencil almostDullPencil = new Pencil(10, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        String writtenText = DEFAULT_TEXT.substring(0, 14);
-        String remainingText = DEFAULT_TEXT.substring(14);
-        String expectedText = DEFAULT_PAPER + writtenText + remainingText.replaceAll(".", " ");
+        String expectedText = DEFAULT_PAPER + DEFAULT_TEXT.substring(0, 14) + DEFAULT_TEXT.substring(14).replaceAll(".", " ");
         assertEquals(expectedText, almostDullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
@@ -69,6 +68,7 @@ public class PencilTest {
     @Test
     public void whenPencilWritesNewLineOrSpaceItDoesNotLoseDurability() {
         pencil.write(DEFAULT_PAPER, " ");
+        pencil.write(DEFAULT_PAPER, "\n");
         assertEquals(pencil.getPointDurability(), DEFAULT_POINT_DURABILITY);
     }
 
@@ -87,10 +87,9 @@ public class PencilTest {
 
     @Test
     public void whenPencilIsDullAndTextIsSpaceThenItWritesSpace() {
-        Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        String outcome = dullPencil.write("", " ");
+        String modifiedPaper = dullPencil.write("", " ");
         assertEquals(dullPencil.getPointDurability(), Integer.valueOf(0));
-        assertEquals(outcome, " ");
+        assertEquals(modifiedPaper, " ");
     }
 
     @Test
@@ -116,15 +115,13 @@ public class PencilTest {
 
     @Test
     public void whenPencilLengthIsZeroThenSharpeningPencilDoesNotRestoreDurability() {
-        Pencil almostDullPencil = new Pencil(0, 0, 0);
-        assertEquals(Integer.valueOf(0), almostDullPencil.getPointDurability());
-        almostDullPencil.sharpen();
-        assertEquals(Integer.valueOf(0), almostDullPencil.getPointDurability());
+        assertEquals(Integer.valueOf(0), dullPencil.getPointDurability());
+        dullPencil.sharpen();
+        assertEquals(Integer.valueOf(0), dullPencil.getPointDurability());
     }
 
     @Test
     public void whenPencilIsAtMaximumDurabilityThenSharpeningDoesNotCausePencilToLoseLength() {
-        assertEquals(DEFAULT_POINT_DURABILITY, pencil.getPointDurability());
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
         pencil.sharpen();
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
@@ -145,7 +142,7 @@ public class PencilTest {
     @Test
     public void whenPencilFindsTargetToEraseInPaperItThenReplacesTargetWithSpaces() {
         String modifiedPaper = pencil.erase(DEFAULT_PAPER, "sea");
-        assertEquals("She sells     shells", modifiedPaper);
+        assertEquals(DEFAULT_PAPER_MISSING_SEA, modifiedPaper);
     }
 
     @Test
@@ -161,8 +158,7 @@ public class PencilTest {
 
     @Test
     public void whenEraserIsDullThenTargetTextIsNotErased() {
-        Pencil pencilDullEraser = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, 0);
-        assertEquals(DEFAULT_PAPER, pencilDullEraser.erase(DEFAULT_PAPER, "sea"));
+        assertEquals(DEFAULT_PAPER, dullPencil.erase(DEFAULT_PAPER, "sea"));
     }
 
     @Test
@@ -196,31 +192,19 @@ public class PencilTest {
 
     @Test
     public void whenPencilEditsItAddsTextToWhitespaceAreaOfPaper() {
-        String modifiedPaper = pencil.edit("She sells     shells", "sea");
+        String modifiedPaper = pencil.edit(DEFAULT_PAPER_MISSING_SEA, "sea");
         assertEquals(DEFAULT_PAPER, modifiedPaper);
     }
 
     @Test
-    public void whenPencilSpecifiesWritingLocationGreaterThanPaperLengthThenItWritesToTheEndOfThePaper() {
-        String modifiedPaper = pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
-        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, modifiedPaper);
-    }
-
-    @Test
     public void whenPencilEditsAndEditTextIsLargerThanWhiteSpaceThenItCollidesWithOriginalPaperText() {
-        String modifiedPaper = pencil.edit("She sells     shells", "apples");
+        String modifiedPaper = pencil.edit(DEFAULT_PAPER_MISSING_SEA, "apples");
         assertEquals("She sells appl@@ells", modifiedPaper);
     }
 
     @Test
-    public void whenPencilEditsAndEditTextIsLargerWhiteSpaceThenItCollidesPreservingBaseTextThatMatches() {
-        String modifiedPaper = pencil.edit("An       a day keeps the doctor away", "artichoke");
-        assertEquals("An artich@k@ay keeps the doctor away", modifiedPaper);
-    }
-
-    @Test
     public void whenPencilEditsAndEditTextLargerThanRemainderOfTextThenEditTextOverlapsWithCollisions() {
-        String modifiedPaper = pencil.edit("She sells     shells", "vegetables and fruits");
+        String modifiedPaper = pencil.edit(DEFAULT_PAPER_MISSING_SEA, "vegetables and fruits");
         assertEquals("She sells vege@@@l@s and fruits", modifiedPaper);
     }
 }
