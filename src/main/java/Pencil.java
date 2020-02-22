@@ -63,7 +63,7 @@ public class Pencil {
         int textLength = eraseText.length();
         String textToErase = remainingPaper.substring(0, textLength);
         int eraseIndex = eraserDurability > eraseText.length() ? 0 : textLength - eraserDurability;
-        eraserDurability = eraserDurability > eraseText.length() ? eraserDurability - textLength : 0;
+        eraserDurability = Math.max(eraserDurability - textLength, 0);
         return textToErase.substring(0, eraseIndex) + replaceTextWithSpaces(textToErase.substring(eraseIndex)) + remainingPaper.substring(textLength);
     }
 
