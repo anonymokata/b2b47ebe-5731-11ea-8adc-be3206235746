@@ -177,4 +177,10 @@ public class PencilTest {
         Pencil pencilAlmostDullEraser = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, 2);
         assertEquals("She sells s   shells", pencilAlmostDullEraser.erase(DEFAULT_PAPER, "sea"));
     }
+
+    @Test
+    public void whenEraserErasesSpacesDoNotMakeEraserLoseDurability() {
+        pencil.erase(DEFAULT_PAPER, " sea ");
+        assertEquals(pencil.getEraserDurability(), Integer.valueOf(DEFAULT_ERASER_DURABILITY - 3));
+    }
 }

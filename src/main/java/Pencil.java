@@ -62,8 +62,7 @@ public class Pencil {
     private String modifyRemainingPaper(String eraseText, String remainingPaper) {
         int textLength = eraseText.length();
         String textToErase = remainingPaper.substring(0, textLength);
-        int eraseIndex = eraserDurability > eraseText.length() ? 0 : textLength - eraserDurability;
-        eraserDurability = Math.max(eraserDurability - textLength, 0);
+        int eraseIndex = getEraseIndex(textToErase);
         return textToErase.substring(0, eraseIndex) + replaceTextWithSpaces(textToErase.substring(eraseIndex)) + remainingPaper.substring(textLength);
     }
 
@@ -77,6 +76,20 @@ public class Pencil {
             degradation = 1;
         }
         return degradation;
+    }
+
+    private int getEraseIndex(String targetText) {
+        int eraseIndex = targetText.length() - 1;
+        while(eraseIndex > 0 && eraserDurability > 0) {
+            if (targetText.charAt(eraseIndex) != ' ') {
+                eraserDurability -= 1;
+                if (eraserDurability == 0) {
+                    break;
+                }
+            }
+            eraseIndex -= 1;
+        }
+        return Math.max(eraseIndex, 0);
     }
 
     private String replaceTextWithSpaces(String text) {
