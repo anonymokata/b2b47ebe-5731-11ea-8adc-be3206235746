@@ -193,4 +193,10 @@ public class PencilTest {
     public void whenPencilEditsWithEditTextAndPaperHasNoWhiteSpaceThenPaperIsNotModified() {
         assertEquals(DEFAULT_PAPER, pencil.edit(DEFAULT_PAPER, "test"));
     }
+
+    @Test
+    public void whenPencilEditsItAddsTextToWhitespaceAreaOfPaper() {
+        String modifiedPaper = pencil.edit("She sells     shells", "sea");
+        assertEquals(DEFAULT_PAPER, modifiedPaper);
+    }
 }

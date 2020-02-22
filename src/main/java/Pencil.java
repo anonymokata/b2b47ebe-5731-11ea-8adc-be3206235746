@@ -60,7 +60,15 @@ public class Pencil {
     }
 
     public String edit(String paper, String editText) {
-        return paper;
+        String modifiedPaper;
+        int indexOfWhiteSpace = paper.indexOf("  ");
+        if (indexOfWhiteSpace != -1) {
+            int startOfEditArea = indexOfWhiteSpace + 1;
+            modifiedPaper = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
+        } else {
+            modifiedPaper = paper;
+        }
+        return modifiedPaper;
     }
 
     private String modifyRemainingPaper(String eraseText, String remainingPaper) {
