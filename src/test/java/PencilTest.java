@@ -206,4 +206,10 @@ public class PencilTest {
         String modifiedPaper = pencil.write(" this is.", "A test,", 0);
         assertEquals("A test, this is.", modifiedPaper);
     }
+
+    @Test
+    public void whenPencilSpecifiesWritingLocationGreaterThanPaperLengthThenItWritesToTheEndOfThePaper() {
+        String modifiedPaper = pencil.write(DEFAULT_PAPER, DEFAULT_TEXT, 999);
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, modifiedPaper);
+    }
 }

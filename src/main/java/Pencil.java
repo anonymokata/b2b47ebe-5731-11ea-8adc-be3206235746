@@ -25,7 +25,7 @@ public class Pencil {
 
     public String write(String paper, String text, int textLocation) {
         StringBuilder updatedPaper = new StringBuilder();
-        updatedPaper.append(paper, 0, textLocation);
+        updatedPaper.append(textLocation > paper.length() ? paper : paper.substring(0, textLocation));
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
@@ -33,7 +33,7 @@ public class Pencil {
             updatedPaper.append(charToWrite);
             currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
-        updatedPaper.append(paper.substring(textLocation));
+        updatedPaper.append(textLocation > paper.length() ? "" : paper.substring(textLocation));
         return updatedPaper.toString();
     }
 
