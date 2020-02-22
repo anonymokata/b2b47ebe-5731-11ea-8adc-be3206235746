@@ -188,4 +188,9 @@ public class PencilTest {
     public void whenPencilEditsWithEmptyEditTextThenPaperIsNotModified() {
         assertEquals(DEFAULT_PAPER, pencil.edit(DEFAULT_PAPER, ""));
     }
+
+    @Test
+    public void whenPencilEditsWithEditTextAndPaperHasNoWhiteSpaceThenPaperIsNotModified() {
+        assertEquals(DEFAULT_PAPER, pencil.edit(DEFAULT_PAPER, "test"));
+    }
 }
