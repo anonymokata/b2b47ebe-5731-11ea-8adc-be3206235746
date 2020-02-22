@@ -173,7 +173,7 @@ public class PencilTest {
 
     @Test
     public void whenEraserErasesSpacesDoNotMakeEraserLoseDurability() {
-        pencil.erase(DEFAULT_PAPER, " sea ");
+        pencil.erase(DEFAULT_PAPER, " " + SEA + " ");
         assertEquals(pencil.getEraserDurability(), Integer.valueOf(DEFAULT_ERASER_DURABILITY - 3));
     }
 
