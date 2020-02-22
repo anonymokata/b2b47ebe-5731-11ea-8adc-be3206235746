@@ -48,10 +48,8 @@ public class Pencil {
         if (paper.contains(targetText)) {
             if (eraserDurability > 0) {
                 int indexOfTargetText = paper.lastIndexOf(targetText);
-                String remainingPaper = paper.substring(indexOfTargetText);
-                remainingPaper = remainingPaper.replace(targetText, replaceTextWithSpaces(targetText));
+                String remainingPaper = modifyRemainingPaper(targetText, paper.substring(indexOfTargetText));
                 modifiedPaper = paper.substring(0, indexOfTargetText) + remainingPaper;
-                eraserDurability -= targetText.length();
             } else {
                 modifiedPaper = paper;
             }
@@ -59,6 +57,14 @@ public class Pencil {
             modifiedPaper = paper;
         }
         return modifiedPaper;
+    }
+
+    private String modifyRemainingPaper(String eraseText, String remainingPaper) {
+        int textLength = eraseText.length();
+        String textToErase = remainingPaper.substring(0, textLength);
+        int eraseIndex = eraserDurability > eraseText.length() ? 0 : textLength - eraserDurability;
+        eraserDurability = eraserDurability > eraseText.length() ? eraserDurability - textLength : 0;
+        return textToErase.substring(0, eraseIndex) + replaceTextWithSpaces(textToErase.substring(eraseIndex)) + remainingPaper.substring(textLength);
     }
 
     private int getDegradation(Character c) {
