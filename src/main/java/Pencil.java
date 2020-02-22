@@ -23,9 +23,9 @@ public class Pencil {
         return eraserDurability;
     }
 
-    public String write(String paper, String text) {
+    public String write(String paper, String text, int textLocation) {
         StringBuilder updatedPaper = new StringBuilder();
-        updatedPaper.append(paper);
+        updatedPaper.append(paper, 0, textLocation);
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
@@ -33,6 +33,7 @@ public class Pencil {
             updatedPaper.append(charToWrite);
             currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
+        updatedPaper.append(paper.substring(textLocation));
         return updatedPaper.toString();
     }
 
@@ -64,7 +65,7 @@ public class Pencil {
         int indexOfWhiteSpace = paper.indexOf("  ");
         if (indexOfWhiteSpace != -1) {
             int startOfEditArea = indexOfWhiteSpace + 1;
-            modifiedPaper = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
+            modifiedPaper = write(paper.substring(0, startOfEditArea), editText, startOfEditArea) + paper.substring(startOfEditArea + editText.length());
         } else {
             modifiedPaper = paper;
         }
