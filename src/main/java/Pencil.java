@@ -1,4 +1,6 @@
 public class Pencil {
+    private static final Character EMPTY_SPACE = ' ';
+
     private Integer maxPointDurability;
     private Integer currentPointDurability;
     private Integer eraserDurability;
@@ -29,7 +31,7 @@ public class Pencil {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
-            char charToWrite = ((degradation > currentPointDurability) || degradation == 0) ? ' ' : c;
+            char charToWrite = ((degradation > currentPointDurability) || degradation == 0) ? EMPTY_SPACE : c;
             updatedPaper.append(charToWrite);
             currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
@@ -48,7 +50,7 @@ public class Pencil {
         if (paper.contains(targetText)) {
             if (eraserDurability > 0) {
                 int indexOfTargetText = paper.lastIndexOf(targetText);
-                String remainingPaper = modifyRemainingPaper(targetText, paper.substring(indexOfTargetText));
+                String remainingPaper = eraseTextFromPaper(targetText, paper.substring(indexOfTargetText));
                 modifiedPaper = paper.substring(0, indexOfTargetText) + remainingPaper;
             } else {
                 modifiedPaper = paper;
@@ -66,38 +68,34 @@ public class Pencil {
             int startOfEditArea = indexOfWhiteSpace + 1;
             String remainingText = paper.length() <= startOfEditArea + editText.length() ? "" : paper.substring(startOfEditArea + editText.length());
             String resultOfWrite = write(paper.substring(0, startOfEditArea), editText) + remainingText;
-            modifiedPaper = formatCollisionText(paper, resultOfWrite);
+            modifiedPaper = compareModifiedPaperToBasePaper(paper, resultOfWrite);
         } else {
             modifiedPaper = paper;
         }
         return modifiedPaper;
     }
 
-    private String formatCollisionText(String paper, String modifiedPaper) {
-        StringBuilder formattedText = new StringBuilder();
-        int index = 0;
-        while (index < paper.length()) {
-            if (paper.charAt(index) != ' ' && paper.charAt(index) != modifiedPaper.charAt(index)) {
-                formattedText.append('@');
-            } else {
-                formattedText.append(modifiedPaper.charAt(index));
-            }
-            index += 1;
+    private String compareModifiedPaperToBasePaper(String paper, String modifiedPaper) {
+        StringBuilder collisionText = new StringBuilder();
+        for (int i = 0; i < paper.length(); i++) {
+            char charToAppend = (paper.charAt(i) != EMPTY_SPACE && paper.charAt(i) != modifiedPaper.charAt(i)) ? '@' : modifiedPaper.charAt(i);
+            collisionText.append(charToAppend);
         }
-        formattedText.append(modifiedPaper.substring(index));
-        return formattedText.toString();
+        //retrieve the remainder of the modified paper and add it to collisionText.
+        collisionText.append(modifiedPaper.substring(paper.length()));
+        return collisionText.toString();
     }
 
-    private String modifyRemainingPaper(String eraseText, String remainingPaper) {
-        int textLength = eraseText.length();
-        String textToErase = remainingPaper.substring(0, textLength);
-        int eraseIndex = getEraseIndex(textToErase);
-        return textToErase.substring(0, eraseIndex) + replaceTextWithSpaces(textToErase.substring(eraseIndex)) + remainingPaper.substring(textLength);
+    private String eraseTextFromPaper(String targetText, String paper) {
+        int textLength = targetText.length();
+        String textToErase = paper.substring(0, textLength);
+        int eraseIndex = getIndexWhereEraseBegins(textToErase);
+        return paper.substring(0, eraseIndex) + replaceTextWithSpaces(textToErase.substring(eraseIndex)) + paper.substring(textLength);
     }
 
     private int getDegradation(Character c) {
         int degradation;
-        if (c == ' ' || c == '\n') {
+        if (c == EMPTY_SPACE || c == '\n') {
             degradation = 0;
         } else if (Character.isUpperCase(c)) {
             degradation = 2;
@@ -107,14 +105,14 @@ public class Pencil {
         return degradation;
     }
 
-    private int getEraseIndex(String targetText) {
+    private int getIndexWhereEraseBegins(String targetText) {
         int eraseIndex = targetText.length() - 1;
         while(eraseIndex > 0 && eraserDurability > 0) {
-            if (targetText.charAt(eraseIndex) != ' ') {
+            if (targetText.charAt(eraseIndex) != EMPTY_SPACE) {
                 eraserDurability -= 1;
-                if (eraserDurability == 0) {
-                    break;
-                }
+            }
+            if (eraserDurability == 0) {
+                break;
             }
             eraseIndex -= 1;
         }
@@ -124,7 +122,7 @@ public class Pencil {
     private String replaceTextWithSpaces(String text) {
         StringBuilder spaces = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
-            spaces.append(" ");
+            spaces.append(EMPTY_SPACE);
         }
         return spaces.toString();
     }
