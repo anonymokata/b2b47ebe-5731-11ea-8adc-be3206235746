@@ -59,6 +59,10 @@ public class Pencil {
         return modifiedPaper;
     }
 
+    public String edit(String paper, String editText) {
+        return paper;
+    }
+
     private String modifyRemainingPaper(String eraseText, String remainingPaper) {
         int textLength = eraseText.length();
         String textToErase = remainingPaper.substring(0, textLength);

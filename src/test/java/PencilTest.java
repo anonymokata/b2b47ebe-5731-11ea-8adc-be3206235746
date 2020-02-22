@@ -183,4 +183,9 @@ public class PencilTest {
         pencil.erase(DEFAULT_PAPER, " sea ");
         assertEquals(pencil.getEraserDurability(), Integer.valueOf(DEFAULT_ERASER_DURABILITY - 3));
     }
+
+    @Test
+    public void whenPencilEditsWithEmptyEditStringThenPaperIsNotModified() {
+        assertEquals(DEFAULT_PAPER, pencil.edit(DEFAULT_PAPER, ""));
+    }
 }
