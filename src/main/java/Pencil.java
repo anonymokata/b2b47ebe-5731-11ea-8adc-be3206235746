@@ -64,7 +64,6 @@ public class Pencil {
         int indexOfWhiteSpace = paper.indexOf("  ");
         if (indexOfWhiteSpace != -1) {
             int startOfEditArea = indexOfWhiteSpace + 1;
-//            modifiedPaper = paper.substring(0, startOfEditArea) + write(paper.substring(startOfEditArea + editText.length()), editText, 0);
             modifiedPaper = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
         } else {
             modifiedPaper = paper;
