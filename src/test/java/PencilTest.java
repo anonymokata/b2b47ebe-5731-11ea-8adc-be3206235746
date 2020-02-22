@@ -9,7 +9,6 @@ public class PencilTest {
     private static final String WOOD_CHUCK_PAPER = "How much chuck could a woodchuck chuck if a woodchuck could chuck wood?";
     private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_ERASER_DURABILITY = 150;
-    private static final Integer DEFAULT_PAPER_LENGTH = 20;
     private static final Integer DEFAULT_POINT_DURABILITY = 100;
     private static final Integer DEFAULT_LENGTH = 10;
     private Pencil pencil;
@@ -21,17 +20,17 @@ public class PencilTest {
 
     @Test
     public void whenPencilIsPassedAnEmptyPaperAndEmptyTextItReturnsAnEmptyString() {
-        assertEquals("", pencil.write("", "", 0));
+        assertEquals("", pencil.write("", ""));
     }
 
     @Test
     public void whenPencilIsPassedAnEmptyPaperAndTextItReturnsThatText() {
-        assertEquals(DEFAULT_TEXT, pencil.write("", DEFAULT_TEXT, 0));
+        assertEquals(DEFAULT_TEXT, pencil.write("", DEFAULT_TEXT));
     }
 
     @Test
     public void whenPencilIsPassedPaperAndTextItWritesTextOnPaper() {
-        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT, DEFAULT_PAPER_LENGTH));
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
     @Test
@@ -43,12 +42,12 @@ public class PencilTest {
     @Test
     public void whenPencilIsDullOnlySpacesAreWritten() {
         Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT.replaceAll(".", " "), dullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT, DEFAULT_PAPER_LENGTH));
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT.replaceAll(".", " "), dullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
     @Test
     public void whenPencilWritesItLosesDurability() {
-        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT, DEFAULT_PAPER_LENGTH));
+        assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, pencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
         assertTrue(pencil.getPointDurability() < DEFAULT_POINT_DURABILITY);
     }
 
@@ -58,45 +57,45 @@ public class PencilTest {
         String writtenText = DEFAULT_TEXT.substring(0, 14);
         String remainingText = DEFAULT_TEXT.substring(14);
         String expectedText = DEFAULT_PAPER + writtenText + remainingText.replaceAll(".", " ");
-        assertEquals(expectedText, almostDullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT, DEFAULT_PAPER_LENGTH));
+        assertEquals(expectedText, almostDullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
 
     @Test
     public void whenPencilWritesLowercaseLetterItLosesOnePointDurability() {
-        pencil.write("", "a", 0);
+        pencil.write("", "a");
         assertEquals(pencil.getPointDurability(), Integer.valueOf(DEFAULT_POINT_DURABILITY - 1));
     }
 
     @Test
     public void whenPencilWritesNewLineOrSpaceItDoesNotLoseDurability() {
-        pencil.write(DEFAULT_PAPER, " ", DEFAULT_PAPER_LENGTH);
+        pencil.write(DEFAULT_PAPER, " ");
         assertEquals(pencil.getPointDurability(), DEFAULT_POINT_DURABILITY);
     }
 
     @Test
     public void whenPencilWritesUppercaseLetterItLosesTwoPointsDurability() {
-        pencil.write(DEFAULT_PAPER, "A", DEFAULT_PAPER_LENGTH);
+        pencil.write(DEFAULT_PAPER, "A");
         assertEquals(pencil.getPointDurability(), Integer.valueOf(DEFAULT_POINT_DURABILITY - 2));
     }
 
     @Test
     public void whenPencilHasOneDurabilityAndEncountersUppercaseItWritesASpace() {
         Pencil toBeDullPencil = new Pencil(1, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        toBeDullPencil.write(DEFAULT_PAPER, "A", DEFAULT_PAPER_LENGTH);
+        toBeDullPencil.write(DEFAULT_PAPER, "A");
         assertEquals(toBeDullPencil.getPointDurability(), Integer.valueOf(0));
     }
 
     @Test
     public void whenPencilIsDullAndTextIsSpaceThenItWritesSpace() {
         Pencil dullPencil = new Pencil(0, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        String outcome = dullPencil.write("", " ", 0);
+        String outcome = dullPencil.write("", " ");
         assertEquals(dullPencil.getPointDurability(), Integer.valueOf(0));
         assertEquals(outcome, " ");
     }
 
     @Test
     public void whenPencilIsSharpenedItsDurabilityResetsToInitialValue() {
-        pencil.write(DEFAULT_PAPER, DEFAULT_TEXT, DEFAULT_PAPER_LENGTH);
+        pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
         assertTrue(pencil.getPointDurability() < DEFAULT_POINT_DURABILITY);
         pencil.sharpen();
         assertEquals(pencil.getPointDurability(), DEFAULT_POINT_DURABILITY);
@@ -110,7 +109,7 @@ public class PencilTest {
     @Test
     public void whenPencilIsSharpenedThenItsLengthIsReducedByOne() {
         assertEquals(DEFAULT_LENGTH, pencil.getLength());
-        pencil.write("", "abc", 0);
+        pencil.write("", "abc");
         pencil.sharpen();
         assertTrue(pencil.getLength() < DEFAULT_LENGTH);
     }
@@ -202,14 +201,8 @@ public class PencilTest {
     }
 
     @Test
-    public void whenPencilSpecifiesWritingLocationItWillWriteInThatLocation() {
-        String modifiedPaper = pencil.write(" this is.", "A test,", 0);
-        assertEquals("A test, this is.", modifiedPaper);
-    }
-
-    @Test
     public void whenPencilSpecifiesWritingLocationGreaterThanPaperLengthThenItWritesToTheEndOfThePaper() {
-        String modifiedPaper = pencil.write(DEFAULT_PAPER, DEFAULT_TEXT, 999);
+        String modifiedPaper = pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
         assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, modifiedPaper);
     }
 }

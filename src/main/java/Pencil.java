@@ -23,22 +23,16 @@ public class Pencil {
         return eraserDurability;
     }
 
-    public String write(String paper, String text, int textLocation) {
+    public String write(String paper, String text) {
         StringBuilder updatedPaper = new StringBuilder();
-//        int currentWritePosition = textLocation;
-        updatedPaper.append(textLocation > paper.length() ? paper : paper.substring(0, textLocation));
+        updatedPaper.append(paper);
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
             char charToWrite = ((degradation > currentPointDurability) || degradation == 0) ? ' ' : c;
-//            if (textLocation < paper.length() && charToWrite != paper.charAt(currentWritePosition)) {
-//                charToWrite = '@';
-//            }
-//            currentWritePosition += 1;
             updatedPaper.append(charToWrite);
             currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
-        updatedPaper.append(textLocation > paper.length() ? "" : paper.substring(textLocation));
         return updatedPaper.toString();
     }
 
@@ -70,7 +64,8 @@ public class Pencil {
         int indexOfWhiteSpace = paper.indexOf("  ");
         if (indexOfWhiteSpace != -1) {
             int startOfEditArea = indexOfWhiteSpace + 1;
-            modifiedPaper = paper.substring(0, startOfEditArea) + write(paper.substring(startOfEditArea + editText.length()), editText, 0);
+//            modifiedPaper = paper.substring(0, startOfEditArea) + write(paper.substring(startOfEditArea + editText.length()), editText, 0);
+            modifiedPaper = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
         } else {
             modifiedPaper = paper;
         }
