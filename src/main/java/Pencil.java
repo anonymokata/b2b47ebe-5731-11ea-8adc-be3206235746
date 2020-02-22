@@ -26,16 +26,16 @@ public class Pencil {
     }
 
     public String write(String paper, String text) {
-        StringBuilder updatedPaper = new StringBuilder();
-        updatedPaper.append(paper);
+        StringBuilder modifiedPaper = new StringBuilder();
+        modifiedPaper.append(paper);
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
             char charToWrite = ((degradation > currentPointDurability) || degradation == 0) ? EMPTY_SPACE : c;
-            updatedPaper.append(charToWrite);
+            modifiedPaper.append(charToWrite);
             currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
-        return updatedPaper.toString();
+        return modifiedPaper.toString();
     }
 
     public void sharpen() {
@@ -63,12 +63,12 @@ public class Pencil {
 
     public String edit(String paper, String editText) {
         String modifiedPaper;
-        int indexOfWhiteSpace = paper.indexOf("  ");
-        if (indexOfWhiteSpace != -1) {
-            int startOfEditArea = indexOfWhiteSpace + 1;
-            String remainingText = paper.length() <= startOfEditArea + editText.length() ? "" : paper.substring(startOfEditArea + editText.length());
-            String resultOfWrite = write(paper.substring(0, startOfEditArea), editText) + remainingText;
-            modifiedPaper = compareModifiedPaperToBasePaper(paper, resultOfWrite);
+        int whiteSpaceLocation = paper.indexOf("  ");
+        if (whiteSpaceLocation != -1) {
+            int startOfWritingArea = whiteSpaceLocation + 1;
+            String remainingOriginalText = paper.length() <= startOfWritingArea + editText.length() ? "" : paper.substring(startOfWritingArea + editText.length());
+            String resultOfEdit = write(paper.substring(0, startOfWritingArea), editText) + remainingOriginalText;
+            modifiedPaper = compareModifiedPaperToBasePaper(paper, resultOfEdit);
         } else {
             modifiedPaper = paper;
         }
