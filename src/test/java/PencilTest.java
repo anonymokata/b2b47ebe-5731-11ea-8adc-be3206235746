@@ -7,18 +7,20 @@ import static org.junit.Assert.assertTrue;
 public class PencilTest {
     private static final String DEFAULT_PAPER = "She sells sea shells";
     private static final String DEFAULT_PAPER_MISSING_SEA = "She sells     shells";
-    private static final String WOOD_CHUCK_PAPER = "How much chuck could a woodchuck chuck if a woodchuck could chuck wood?";
     private static final String DEFAULT_TEXT = " down by the sea shore";
     private static final Integer DEFAULT_ERASER_DURABILITY = 150;
     private static final Integer DEFAULT_POINT_DURABILITY = 100;
     private static final Integer DEFAULT_LENGTH = 10;
+    private static final String SEA = "sea";
     private Pencil pencil;
+    private Pencil almostDullPencil;
     private Pencil dullPencil;
 
     @Before
     public void setUp() {
         this.pencil = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
         this.dullPencil = new Pencil(0, 0, 0);
+        this.almostDullPencil = new Pencil(10, 0, 2);
     }
 
     @Test
@@ -54,7 +56,6 @@ public class PencilTest {
 
     @Test
     public void whenPencilGoesDullRemainingTextIsSpaces() {
-        Pencil almostDullPencil = new Pencil(10, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
         String expectedText = DEFAULT_PAPER + DEFAULT_TEXT.substring(0, 14) + DEFAULT_TEXT.substring(14).replaceAll(".", " ");
         assertEquals(expectedText, almostDullPencil.write(DEFAULT_PAPER, DEFAULT_TEXT));
     }
@@ -80,9 +81,8 @@ public class PencilTest {
 
     @Test
     public void whenPencilHasOneDurabilityAndEncountersUppercaseItWritesASpace() {
-        Pencil toBeDullPencil = new Pencil(1, DEFAULT_LENGTH, DEFAULT_ERASER_DURABILITY);
-        toBeDullPencil.write(DEFAULT_PAPER, "A");
-        assertEquals(toBeDullPencil.getPointDurability(), Integer.valueOf(0));
+        almostDullPencil.write(DEFAULT_PAPER, "aaaaaaaaaA");
+        assertEquals(almostDullPencil.getPointDurability(), Integer.valueOf(0));
     }
 
     @Test
@@ -129,26 +129,24 @@ public class PencilTest {
 
     @Test
     public void whenPencilErasesOnEmptyPaperThenEmptyPaperIsReturned() {
-        String outcome = pencil.erase("", "");
-        assertEquals("", outcome);
+        assertEquals("", pencil.erase("", ""));
     }
 
     @Test
     public void whenPencilDoesNotFindTargetToEraseThenPaperRemainsUnmodified() {
-        String modifiedPaper = pencil.erase(DEFAULT_PAPER, "Test");
-        assertEquals(modifiedPaper, DEFAULT_PAPER);
+        assertEquals(pencil.erase(DEFAULT_PAPER, "Test"), DEFAULT_PAPER);
     }
 
     @Test
     public void whenPencilFindsTargetToEraseInPaperItThenReplacesTargetWithSpaces() {
-        String modifiedPaper = pencil.erase(DEFAULT_PAPER, "sea");
-        assertEquals(DEFAULT_PAPER_MISSING_SEA, modifiedPaper);
+        assertEquals(DEFAULT_PAPER_MISSING_SEA, pencil.erase(DEFAULT_PAPER, SEA));
     }
 
     @Test
     public void whenPencilFindsMultipleInstancesOfTargetTextItErasesLastInstanceOfTargetText() {
-        String modifiedPaper = pencil.erase(WOOD_CHUCK_PAPER, "chuck");
-        assertEquals(WOOD_CHUCK_PAPER.substring(0, 60) + "     " + WOOD_CHUCK_PAPER.substring(65), modifiedPaper);
+        String fullPaper = DEFAULT_PAPER + DEFAULT_TEXT;
+        int lastIndex = (fullPaper).lastIndexOf(SEA);
+        assertEquals(fullPaper.substring(0, lastIndex) + "   " + fullPaper.substring(lastIndex + 3), pencil.erase(fullPaper, SEA));
     }
 
     @Test
@@ -158,20 +156,19 @@ public class PencilTest {
 
     @Test
     public void whenEraserIsDullThenTargetTextIsNotErased() {
-        assertEquals(DEFAULT_PAPER, dullPencil.erase(DEFAULT_PAPER, "sea"));
+        assertEquals(DEFAULT_PAPER, dullPencil.erase(DEFAULT_PAPER, SEA));
     }
 
     @Test
     public void whenEraserErasesThenItLosesDurability() {
         assertEquals(DEFAULT_ERASER_DURABILITY, pencil.getEraserDurability());
-        pencil.erase(DEFAULT_PAPER, "sea");
+        pencil.erase(DEFAULT_PAPER, SEA);
         assertTrue(pencil.getEraserDurability() < DEFAULT_ERASER_DURABILITY);
     }
 
     @Test
     public void whenEraserBecomesDullWhileErasingWordTheRemainingLettersOfWordAreNotErased() {
-        Pencil pencilAlmostDullEraser = new Pencil(DEFAULT_POINT_DURABILITY, DEFAULT_LENGTH, 2);
-        assertEquals("She sells s   shells", pencilAlmostDullEraser.erase(DEFAULT_PAPER, "sea"));
+        assertEquals("She sells s   shells", almostDullPencil.erase(DEFAULT_PAPER, SEA));
     }
 
     @Test
@@ -192,19 +189,16 @@ public class PencilTest {
 
     @Test
     public void whenPencilEditsItAddsTextToWhitespaceAreaOfPaper() {
-        String modifiedPaper = pencil.edit(DEFAULT_PAPER_MISSING_SEA, "sea");
-        assertEquals(DEFAULT_PAPER, modifiedPaper);
+        assertEquals(DEFAULT_PAPER, pencil.edit(DEFAULT_PAPER_MISSING_SEA, SEA));
     }
 
     @Test
     public void whenPencilEditsAndEditTextIsLargerThanWhiteSpaceThenItCollidesWithOriginalPaperText() {
-        String modifiedPaper = pencil.edit(DEFAULT_PAPER_MISSING_SEA, "apples");
-        assertEquals("She sells appl@@ells", modifiedPaper);
+        assertEquals("She sells appl@@ells", pencil.edit(DEFAULT_PAPER_MISSING_SEA, "apples"));
     }
 
     @Test
     public void whenPencilEditsAndEditTextLargerThanRemainderOfTextThenEditTextOverlapsWithCollisions() {
-        String modifiedPaper = pencil.edit(DEFAULT_PAPER_MISSING_SEA, "vegetables and fruits");
-        assertEquals("She sells vege@@@l@s and fruits", modifiedPaper);
+        assertEquals("She sells vege@@@l@s and fruits", pencil.edit(DEFAULT_PAPER_MISSING_SEA, "vegetables and fruits"));
     }
 }
