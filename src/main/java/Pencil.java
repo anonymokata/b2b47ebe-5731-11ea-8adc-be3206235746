@@ -25,11 +25,16 @@ public class Pencil {
 
     public String write(String paper, String text, int textLocation) {
         StringBuilder updatedPaper = new StringBuilder();
+//        int currentWritePosition = textLocation;
         updatedPaper.append(textLocation > paper.length() ? paper : paper.substring(0, textLocation));
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             int degradation = getDegradation(c);
             char charToWrite = ((degradation > currentPointDurability) || degradation == 0) ? ' ' : c;
+//            if (textLocation < paper.length() && charToWrite != paper.charAt(currentWritePosition)) {
+//                charToWrite = '@';
+//            }
+//            currentWritePosition += 1;
             updatedPaper.append(charToWrite);
             currentPointDurability = Math.max(currentPointDurability - degradation, 0);
         }
@@ -65,7 +70,7 @@ public class Pencil {
         int indexOfWhiteSpace = paper.indexOf("  ");
         if (indexOfWhiteSpace != -1) {
             int startOfEditArea = indexOfWhiteSpace + 1;
-            modifiedPaper = write(paper.substring(0, startOfEditArea), editText, startOfEditArea) + paper.substring(startOfEditArea + editText.length());
+            modifiedPaper = paper.substring(0, startOfEditArea) + write(paper.substring(startOfEditArea + editText.length()), editText, 0);
         } else {
             modifiedPaper = paper;
         }
