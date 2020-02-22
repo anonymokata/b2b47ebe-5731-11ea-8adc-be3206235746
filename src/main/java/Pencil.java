@@ -64,7 +64,8 @@ public class Pencil {
         int indexOfWhiteSpace = paper.indexOf("  ");
         if (indexOfWhiteSpace != -1) {
             int startOfEditArea = indexOfWhiteSpace + 1;
-            String resultOfWrite = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
+            String remainingText = paper.length() <= startOfEditArea + editText.length() ? "" : paper.substring(startOfEditArea + editText.length());
+            String resultOfWrite = write(paper.substring(0, startOfEditArea), editText) + remainingText;
             modifiedPaper = formatCollisionText(paper, resultOfWrite);
         } else {
             modifiedPaper = paper;

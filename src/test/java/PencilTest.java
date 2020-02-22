@@ -217,4 +217,10 @@ public class PencilTest {
         String modifiedPaper = pencil.edit("An       a day keeps the doctor away", "artichoke");
         assertEquals("An artich@k@ay keeps the doctor away", modifiedPaper);
     }
+
+    @Test
+    public void whenPencilEditsAndEditTextLargerThanRemainderOfTextThenEditTextOverlapsWithCollisions() {
+        String modifiedPaper = pencil.edit("She sells     shells", "vegetables and fruits");
+        assertEquals("She sells vege@@@l@s and fruits", modifiedPaper);
+    }
 }
