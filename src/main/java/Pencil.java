@@ -64,11 +64,27 @@ public class Pencil {
         int indexOfWhiteSpace = paper.indexOf("  ");
         if (indexOfWhiteSpace != -1) {
             int startOfEditArea = indexOfWhiteSpace + 1;
-            modifiedPaper = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
+            String resultOfWrite = write(paper.substring(0, startOfEditArea), editText) + paper.substring(startOfEditArea + editText.length());
+            modifiedPaper = formatCollisionText(paper, resultOfWrite);
         } else {
             modifiedPaper = paper;
         }
         return modifiedPaper;
+    }
+
+    private String formatCollisionText(String paper, String modifiedPaper) {
+        StringBuilder formattedText = new StringBuilder();
+        int index = 0;
+        while (index < paper.length()) {
+            if (paper.charAt(index) != ' ' && paper.charAt(index) != modifiedPaper.charAt(index)) {
+                formattedText.append('@');
+            } else {
+                formattedText.append(modifiedPaper.charAt(index));
+            }
+            index += 1;
+        }
+        formattedText.append(modifiedPaper.substring(index));
+        return formattedText.toString();
     }
 
     private String modifyRemainingPaper(String eraseText, String remainingPaper) {

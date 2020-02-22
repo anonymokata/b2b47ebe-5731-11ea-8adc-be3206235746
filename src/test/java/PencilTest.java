@@ -205,4 +205,16 @@ public class PencilTest {
         String modifiedPaper = pencil.write(DEFAULT_PAPER, DEFAULT_TEXT);
         assertEquals(DEFAULT_PAPER + DEFAULT_TEXT, modifiedPaper);
     }
+
+    @Test
+    public void whenPencilEditsAndEditTextIsLargerThanWhiteSpaceThenItCollidesWithOriginalPaperText() {
+        String modifiedPaper = pencil.edit("She sells     shells", "apples");
+        assertEquals("She sells appl@@ells", modifiedPaper);
+    }
+
+    @Test
+    public void whenPencilEditsAndEditTextIsLargerWhiteSpaceThenItCollidesPreservingBaseTextThatMatches() {
+        String modifiedPaper = pencil.edit("An       a day keeps the doctor away", "artichoke");
+        assertEquals("An artich@k@ay keeps the doctor away", modifiedPaper);
+    }
 }
