@@ -1,13 +1,13 @@
 # Pencil Durability Kata
 #### This project demonstrates how a pencil interacts with paper.
 
-##Dependencies:
+####Dependencies:
 #### The following are dependencies that are required for running the unit test suite for this project:
 - Gradle 6.2
 - Java 1.8
 - JUnit 4.12
 
-##How To Run in OS X
+####How To Run in OS X
 - First, open up command line and navigate to the ~/PencilDurabilityKata directory.
 - If Gradle 6.2 is installed, run the following command:
 ```
@@ -21,7 +21,7 @@ gradle test
 you need to be on the directory level that houses the gradlew.sh file.
 This file is found in the ~/PencilDurabilityKata directory.
 
-##Additional Information
+####Additional Information
 - After building and running the test suite, associated test reports
 can be found in ~/PencilDurabilityKata/build/reports/test/test/classes/PencilTest.html
 - Gradle should also be able to run on Windows by executing the gradle.bat file also located
